@@ -50,11 +50,13 @@ jobs:
       - name: Install Dependencies 📦️
         run: pnpm install
 
+      - name: Configure Git 🔧
+        run: |
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@users.noreply.github.com"
+
       - name: Update Package Version 🔢
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@users.noreply.github.com"
-
           echo "Updating package.json version to ${VERSION}"
           pnpm version --new-version "${VERSION}"
 
