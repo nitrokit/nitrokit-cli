@@ -1,6 +1,17 @@
+<div align="center">
+  <a href="https://nitrokit.tr">
+    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/.github/refs/heads/main/profile/nitrokit-cli.png" height="100">
+  </a>
+
 # Nitrokit CLI
 
 A powerful and user-friendly command-line interface (CLI) to help developers quickly set up new projects using the Nitrokit boilerplate. Built with a focus on speed and ease of use, this CLI automates the project creation process and lets you choose your preferred package manager.
+
+</div>
+
+
+
+
 
 
 ## ✨ Features
