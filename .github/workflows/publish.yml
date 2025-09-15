@@ -131,6 +131,10 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
 
+        - name: Configure Git 🔧
+          run: |
+            git config --global user.name "github-actions"
+            git config --global user.email "github-actions@users.noreply.github.com"
       - name: Update Package Version 🔢
         run: |
           echo "Updating package.json version to ${VERSION}"
