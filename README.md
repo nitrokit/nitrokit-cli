@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://nitrokit.tr">
-    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/.github/refs/heads/main/profile/nitrokit-cli.png" height="100">
+    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/.github/refs/heads/main/profile/nitrokit.png" height="100">
   </a>
 
 # Nitrokit CLI
@@ -22,19 +22,19 @@ A powerful and user-friendly command-line interface (CLI) to help developers qui
 You can install the Nitrokit CLI globally via your terminal.
 
 ```bash
-pnpm install -g nitrokit-cli
+pnpm install -g nitrokit
 ```
 
 or 
 
 ```bash
-npm install -g nitrokit-cli
+npm install -g nitrokit
 ```
 
 or 
 
 ```bash
-yarn global add nitrokit-cli
+yarn global add nitrokit
 ```
 
 ## 💡 Usage

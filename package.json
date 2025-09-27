@@ -1,5 +1,5 @@
 {
-  "name": "nitrokit-cli",
+  "name": "nitrokit",
   "version": "0.0.0",
   "description": "A CLI to create Nitrokit projects.",
   "main": "index.js",
