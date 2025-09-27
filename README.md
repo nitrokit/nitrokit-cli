@@ -22,19 +22,19 @@ A powerful and user-friendly command-line interface (CLI) to help developers qui
 You can install the Nitrokit CLI globally via your terminal.
 
 ```bash
-pnpm install -g nitrokit
+pnpm install -g nitrokit-cli
 ```
 
 or 
 
 ```bash
-npm install -g nitrokit
+npm install -g nitrokit-cli
 ```
 
 or 
 
 ```bash
-yarn global add nitrokit
+yarn global add nitrokit-cli
 ```
 
 ## 💡 Usage
