@@ -299,7 +299,6 @@ YANDEX_VERIFICATION=""`;
         // Git repository yapılandırıldıysa ilk commit'i oluştur
         // Create initial commit if git repository is configured
         if (configureGit) {
-          spinner.start(chalk.blue`Creating initial commit...`);
           await new Promise((resolve, reject) => {
             exec('git add .', (err, stdout, stderr) => {
               if (err) {
