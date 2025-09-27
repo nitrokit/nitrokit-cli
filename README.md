@@ -10,10 +10,6 @@ A powerful and user-friendly command-line interface (CLI) to help developers qui
 </div>
 
 
-
-
-
-
 ## ✨ Features
 
 - **Fast Project Creation:** Quickly clone the latest Nitrokit boilerplate from the official GitHub repository.
