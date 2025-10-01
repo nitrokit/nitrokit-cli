@@ -8,6 +8,7 @@ const packageJsonPath = path.join(__dirname, "package.json");
 const packageJson = fs.readJsonSync(packageJsonPath);
 
 const newCommand = require("./src/commands/new");
+const generateCommand = require("./src/commands/generate");
 
 const program = new Command();
 
@@ -19,5 +20,10 @@ program
   .description(newCommand.description)
   .argument(...newCommand.arguments)
   .action(newCommand.action);
+
+program
+  .command(generateCommand.command)
+  .description(generateCommand.description)
+  .action(generateCommand.action);
 
 program.parse(process.argv);
