@@ -1,0 +1,40 @@
+name: Publish to GitHub Packages
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies with pnpm
+        run: npm install -g pnpm && pnpm install --frozen-lockfile
+
+      - name: Update package.json for GitHub Packages
+        run: |
+          # Dynamically set the version from the tag
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          npm version $VERSION --no-git-tag-version
+
+          # Dynamically set the scoped name for GitHub Packages
+          npm pkg set name="@nitrokit/nitrokit-cli"
+
+          # Add the repository URL to package.json for GitHub Packages
+          npm pkg set repository.url="git+https://github.com/nitrokit/nitrokit-cli.git"
+
+      - name: Publish to GitHub Packages
+        run: |
+          echo "@nitrokit:registry=https://npm.pkg.github.com/" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

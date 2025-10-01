@@ -1,4 +1,4 @@
-name: NPM Publish
+name: Publish to NPM
 
 on:
   push:
@@ -16,12 +16,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          
       - name: Install dependencies with pnpm
         run: npm install -g pnpm && pnpm install --frozen-lockfile
 
@@ -45,9 +39,11 @@ jobs:
             echo "is_published=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Publish to npm
+      - name: Publish to NPM Registry
         if: steps.check_version.outputs.is_published == 'false'
-        run: npm publish --access public
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -60,3 +56,20 @@ jobs:
             ### Published to NPM
             You can find this release on [npmjs.com](https://www.npmjs.com/package/nitrokit-cli/v/${{ env.VERSION }})
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update README with new version badge
+        if: steps.check_version.outputs.is_published == 'false'
+        run: |
+          # The badge URL is static and will always show the latest version from npm.
+          # This step ensures the badge is present in the README.
+          BADGE_MD="[![npm version](https://img.shields.io/npm/v/nitrokit-cli.svg)](https://www.npmjs.com/package/nitrokit-cli)"
+          sed -i "s|<!-- BADGES_START -->.*<!-- BADGES_END -->|<!-- BADGES_START -->${BADGE_MD}<!-- BADGES_END -->|" README.md
+
+      - name: Commit README changes
+        if: steps.check_version.outputs.is_published == 'false'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: Update README.md with latest version badge"
+          file_pattern: README.md
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
