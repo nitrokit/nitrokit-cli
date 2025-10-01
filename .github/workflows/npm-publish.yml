@@ -34,17 +34,29 @@ jobs:
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
           npm version $VERSION --no-git-tag-version
 
+      - name: Check if version is already published
+        id: check_version
+        run: |
+          if npm view nitrokit-cli@${{ env.VERSION }} version > /dev/null 2>&1; then
+            echo "Version ${{ env.VERSION }} is already published. Skipping."
+            echo "is_published=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version ${{ env.VERSION }} is not yet published. Proceeding."
+            echo "is_published=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Publish to npm
+        if: steps.check_version.outputs.is_published == 'false'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
+        if: steps.check_version.outputs.is_published == 'false'
         uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           generateReleaseNotes: true
           body: |
             ### Published to NPM
             You can find this release on [npmjs.com](https://www.npmjs.com/package/nitrokit-cli/v/${{ env.VERSION }})
+          token: ${{ secrets.GITHUB_TOKEN }}
