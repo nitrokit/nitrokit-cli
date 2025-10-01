@@ -106,7 +106,7 @@ const updateCommand = {
   command: "update",
   description: "Update project dependencies with security checks and backups.",
   options: [
-    ["-m, --mode <mode>", "Update strategy (safe|patch|minor|major)", "safe"],
+    ["-m, --mode <mode>", "Update strategy: safe (patches), patch, minor, or major (latest)", "safe"],
     ["--no-security", "Disable security vulnerability scanning"],
     ["--no-backup", "Disable automatic backup"],
     ["--dry-run", "Preview changes without applying them (not implemented yet)"],

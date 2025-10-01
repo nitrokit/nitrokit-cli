@@ -12,8 +12,8 @@ const createInitialCommit = require("../utils/git-commit");
 
 const newCommand = {
   command: "new",
-  description: "Create a new Nitrokit project from the boilerplate.",
-  arguments: ["<project-name>", "Name of the new project"],
+  description: "Creates a new Nitrokit project in a directory with the same name.",
+  argumentDescription: "The name for the new project and directory.",
   action: async (projectName) => {
     const spinner = ora(chalk.blue`Creating project "${projectName}"...`).start();
     const boilerplateUrl = "https://github.com/nitrokit/nitrokit-nextjs.git";

@@ -179,8 +179,9 @@ async function generateLanguage() {
 }
 
 const generateCommand = {
-  command: "generate <schematic>",
-  description: "Generate new features (e.g., 'language').",
+  command: "generate",
+  description: "Generates and/or modifies files based on a schematic.",
+  argument: ["<schematic>", "The schematic to generate. Currently only 'language' is supported."],
   action: async (schematic) => {
     if (schematic === "language") {
       await generateLanguage();

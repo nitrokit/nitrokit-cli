@@ -16,15 +16,16 @@ const program = new Command();
 program
   .name("nitrokit")
   .description("A CLI to help create and manage Nitrokit projects.")
-  .version(packageJson.version)
-  .command(newCommand.command)
+  .version(packageJson.version);
+
+program.command(newCommand.command)
   .description(newCommand.description)
-  .argument(...newCommand.arguments)
+  .argument(`<project-name>`, newCommand.argumentDescription)
   .action(newCommand.action);
 
-program
-  .command(generateCommand.command)
+program.command(generateCommand.command)
   .description(generateCommand.description)
+  .argument(...generateCommand.argument)
   .action(generateCommand.action);
 
 const updateCmd = program
