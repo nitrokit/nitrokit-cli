@@ -9,6 +9,7 @@ const packageJson = fs.readJsonSync(packageJsonPath);
 
 const newCommand = require("./src/commands/new");
 const generateCommand = require("./src/commands/generate");
+const updateCommand = require("./src/commands/update");
 
 const program = new Command();
 
@@ -25,5 +26,14 @@ program
   .command(generateCommand.command)
   .description(generateCommand.description)
   .action(generateCommand.action);
+
+const updateCmd = program
+  .command(updateCommand.command)
+  .description(updateCommand.description)
+  .action(updateCommand.action);
+
+updateCommand.options.forEach(option => {
+  updateCmd.option(...option);
+});
 
 program.parse(process.argv);

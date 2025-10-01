@@ -3,15 +3,18 @@ const path = require("path");
 
 async function cleanupFiles(projectPath) {
   // Lock dosyalarını temizle
+  // Clean up lock files
   await fs.remove(path.join(projectPath, "pnpm-lock.yaml"));
   await fs.remove(path.join(projectPath, "pnpm-workspace.yaml"));
   await fs.remove(path.join(projectPath, "yarn.lock"));
   await fs.remove(path.join(projectPath, "package-lock.json"));
 
   // .git klasörünü sil
+  // Delete the .git folder
   await fs.remove(path.join(projectPath, ".git"));
 
   // .github klasörünü sil
+  // Delete the .github folder
   await fs.remove(path.join(projectPath, ".github"));
   await fs.remove(path.join(projectPath, "crowdin.yml"));
 }

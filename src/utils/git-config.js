@@ -37,6 +37,7 @@ async function configureGit(projectPath) {
     });
 
     // Remote repository'i ekle
+    // Add the remote repository
     await new Promise((resolve, reject) => {
       exec(`git remote add origin ${gitRepoUrl}`, (err, stdout, stderr) => {
         if (err) {

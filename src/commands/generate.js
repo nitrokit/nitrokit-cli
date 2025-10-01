@@ -1,10 +1,12 @@
 const fs = require("fs-extra");
 const path = require("path");
+const { execa } = require("execa");
 const inquirer = require("inquirer");
 const ora = require("ora");
 const chalk = require("chalk");
 
 // Desteklenen dillerin listesi. Bu listeyi genişletebilirsiniz.
+// List of supported languages. You can expand this list.
 // 'value' is the language code, 'flag' is the svg file name in 'public/images/flags/'.
 const SUPPORTED_LANGUAGES = [
   { name: "Turkish", value: "tr", nativeName: "Türkçe", flag: "tr.svg" },
@@ -42,6 +44,7 @@ async function generateLanguage() {
 
   try {
     // Gerekli dosyaların varlığını kontrol et
+    // Check for the existence of required files
     if (!fs.existsSync(localeConfigPath) || !fs.existsSync(baseLangPath)) {
       console.error(
         chalk.red`Error: Could not find required project structure.`
@@ -53,6 +56,7 @@ async function generateLanguage() {
     }
 
     // Mevcut dilleri oku
+    // Read current languages
     spinner.start("Reading current language configuration...");
     const localeContent = await fs.readFile(localeConfigPath, "utf-8");
     const localesArrayMatch = localeContent.match(
@@ -70,7 +74,9 @@ async function generateLanguage() {
     spinner.succeed(`Current languages identified: ${existingLocales.join(", ")}`);
 
     // Kullanıcıya eklenebilecek dilleri sor
+    // Ask the user for languages to add
     // Projede zaten var olan dilleri listeden çıkar
+    // Filter out languages that already exist in the project
     const availableLanguages = SUPPORTED_LANGUAGES.map(lang => ({
       name: `${lang.name} (${lang.nativeName})`, value: lang.value
     })).filter(
@@ -101,6 +107,7 @@ async function generateLanguage() {
     }
 
     // Seçilen diller için işlemleri yap
+    // Perform operations for the selected languages
     spinner.start(`Adding ${languagesToAdd.length} language(s)...`);
     for (const lang of languagesToAdd) {
       const newLangPath = path.join(messagesPath, lang);
@@ -108,6 +115,7 @@ async function generateLanguage() {
     }
 
     // 1. LOCALES dizisini güncelle
+    // 1. Update the LOCALES array
     const allLocales = [...existingLocales, ...languagesToAdd];
     const newLocalesString = allLocales.map((l) => `'${l}'`).join(", ");
     let updatedLocaleContent = localeContent.replace(
@@ -116,6 +124,7 @@ async function generateLanguage() {
     );
 
     // 2. LOCALE_CONFIG nesnesini güncelle
+    // 2. Update the LOCALE_CONFIG object
     const newConfigEntries = languagesToAdd
       .map((langCode) => {
         const langDetails = SUPPORTED_LANGUAGES.find(l => l.value === langCode);
@@ -141,6 +150,19 @@ async function generateLanguage() {
     }
 
     await fs.writeFile(localeConfigPath, updatedLocaleContent, "utf-8");
+
+    // 3. Kodu Prettier ile formatla
+    // 3. Format the code with Prettier
+    spinner.start("Formatting code with Prettier...");
+    try {
+      // Use npx to ensure prettier is run even if not globally installed.
+      // The command is run with shell: true to correctly handle the glob pattern.
+      await execa('npx', ['prettier', '--write', '**/*.{js,jsx,ts,tsx,json,css,scss,md}', '--cache'], { cwd: projectRoot, shell: true });
+      spinner.succeed("Code formatted successfully.");
+    } catch (error) {
+      // Don't exit if prettier fails, just warn the user.
+      spinner.warn(chalk.yellow`Could not format the code. You may need to run Prettier manually.`);
+    }
 
     spinner.succeed(
       chalk.green`Successfully added: ${languagesToAdd.join(", ")}`

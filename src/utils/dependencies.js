@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const { exec } = require("child_process");
 const fs = require("fs-extra");
+const ora = require("ora");
 const chalk = require("chalk");
 
 async function configureDependencies(projectPath, packageJsonPath) {
@@ -15,34 +16,26 @@ async function configureDependencies(projectPath, packageJsonPath) {
   ]);
 
   // packageManager alanını package.json'dan kaldır
+  // Remove the packageManager field from package.json
   const pkgJson = await fs.readJson(packageJsonPath);
   delete pkgJson.packageManager;
   await fs.writeJson(packageJsonPath, pkgJson, { spaces: 2 });
 
-  const { confirmInstall } = await inquirer.prompt([
-    {
-      type: "confirm",
-      name: "confirmInstall",
-      message: "Would you like to install the dependencies now?",
-      default: true,
-    },
-  ]);
+  const spinner = ora(`Installing dependencies with ${chalk.green(packageManager)}...`).start();
 
-  let installed = false;
-  if (confirmInstall) {
-    await new Promise((resolve, reject) => {
-      exec(`${packageManager} install`, (err, stdout, stderr) => {
-        if (err) {
-          console.error(stderr);
-          return reject(err);
-        }
-        resolve();
-      });
+  await new Promise((resolve, reject) => {
+    exec(`${packageManager} install`, (err, stdout, stderr) => {
+      if (err) {
+        spinner.fail(chalk.red`Failed to install dependencies.`);
+        console.error(stderr);
+        return reject(err);
+      }
+      spinner.succeed(chalk.green`Dependencies installed successfully!`);
+      resolve();
     });
-    installed = true;
-  }
+  });
 
-  return { packageManager, installed };
+  return { packageManager, installed: true };
 }
 
 module.exports = configureDependencies;

@@ -44,6 +44,7 @@ const newCommand = {
       process.chdir(projectPath);
 
       // Temizlik işlemleri
+      // Cleanup operations
       await cleanupFiles(projectPath);
 
       // package.json güncelle
@@ -56,18 +57,22 @@ const newCommand = {
       spinner.succeed(chalk.green`Project "${projectName}" created successfully!`);
 
       // Git yapılandırması
+      // Git configuration
       const isGitConfigured = await configureGit(projectPath);
 
       // ENV yapılandırması
+      // ENV configuration
       await configureEnv(projectPath);
 
       // Paket yöneticisi ve bağımlılıklar
+      // Package manager and dependencies
       const { packageManager, installed } = await configureDependencies(projectPath, packageJsonPath);
 
       if (installed) {
         spinner.succeed(chalk.green`Dependencies installed successfully!`);
 
         // Git repository yapılandırıldıysa ilk commit'i oluştur
+        // If Git repository is configured, create the initial commit
         if (isGitConfigured) {
           await createInitialCommit();
         }

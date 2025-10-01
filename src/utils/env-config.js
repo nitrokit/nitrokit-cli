@@ -57,6 +57,7 @@ async function configureEnv(projectPath) {
     ]);
 
     // AUTH_SECRET oluştur
+    // Generate AUTH_SECRET
     console.log(chalk.cyan`\nGenerating AUTH_SECRET...`);
     await new Promise((resolve, reject) => {
       exec("npx auth secret", (err, stdout, stderr) => {
@@ -69,6 +70,7 @@ async function configureEnv(projectPath) {
     });
 
     // .env.local'dan AUTH_SECRET al
+    // Get AUTH_SECRET from .env.local
     const envLocalPath = path.join(projectPath, ".env.local");
     if (await fs.pathExists(envLocalPath)) {
       const envLocalContent = await fs.readFile(envLocalPath, "utf8");
@@ -81,12 +83,14 @@ async function configureEnv(projectPath) {
   }
 
   // Diğer değişkenler
+  // Other variables
   const additionalEnvVars = `\n
 GOOGLE_SITE_VERIFICATION=""
 GOOGLE_ANALYTICS=""
 YANDEX_VERIFICATION=""`;
 
   // .env oluştur
+  // Create .env
   if (configureEnv) {
     const envContent = Object.entries(config)
       .map(([key, value]) => `${key}="${value}"`)
