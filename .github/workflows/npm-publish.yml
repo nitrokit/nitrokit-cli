@@ -27,9 +27,20 @@ jobs:
       - name: Update package.json version
         run: |
           VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
           npm version $VERSION --no-git-tag-version
 
       - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          generateReleaseNotes: true
+          body: |
+            ### Published to NPM
+            You can find this release on [npmjs.com](https://www.npmjs.com/package/nitrokit-cli/v/${{ env.VERSION }})
