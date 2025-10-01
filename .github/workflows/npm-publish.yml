@@ -37,7 +37,7 @@ jobs:
       - name: Check if version is already published
         id: check_version
         run: |
-          if npm view nitrokit-cli@${{ env.VERSION }} version > /dev/null 2>&1; then
+          if npm info nitrokit-cli@${{ env.VERSION }} | grep -q "version: '${{ env.VERSION }}'"; then
             echo "Version ${{ env.VERSION }} is already published. Skipping."
             echo "is_published=true" >> $GITHUB_OUTPUT
           else
