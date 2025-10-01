@@ -7,6 +7,7 @@
 
 <!-- BADGES_START -->[![npm version](https://img.shields.io/npm/v/nitrokit-cli.svg)](https://www.npmjs.com/package/nitrokit-cli)<!-- BADGES_END -->
 
+
 A powerful and user-friendly command-line interface (CLI) to help developers quickly set up new projects using the Nitrokit boilerplate. Built with a focus on speed and ease of use, this CLI automates the project creation process and lets you choose your preferred package manager.
 
 </div>
@@ -24,7 +25,7 @@ A powerful and user-friendly command-line interface (CLI) to help developers qui
 You can install the Nitrokit CLI globally via your terminal.
 
 ```bash
-pnpm install -g nitrokit-cli
+pnpm install -g @nitrokit/nitrokit-cli
 ```
 
 or 
