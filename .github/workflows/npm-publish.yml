@@ -56,3 +56,12 @@ jobs:
             ### Published to NPM
             You can find this release on [npmjs.com](https://www.npmjs.com/package/nitrokit-cli/v/${{ env.VERSION }})
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit version bump to package.json
+        if: steps.check_version.outputs.is_published == 'false'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(release): Bump version to ${{ env.VERSION }}"
+          file_pattern: "package.json"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"

@@ -10,7 +10,16 @@
     "type": "git",
     "url": "git+https://github.com/nitrokit/nitrokit-cli.git"
   },
-  "keywords": [],
+  "keywords": [
+    "cli",
+    "nitrokit",
+    "nextjs",
+    "boilerplate",
+    "starter-kit",
+    "generator",
+    "scaffolding",
+    "dev-tools"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
