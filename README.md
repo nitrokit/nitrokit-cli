@@ -1,17 +1,14 @@
-<div align="center">
+<p align="center">
   <a href="https://nitrokit.tr">
     <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/.github/refs/heads/main/profile/nitrokit.png" height="100">
   </a>
+</p>
 
 # Nitrokit CLI
 
 <!-- BADGES_START -->[![npm version](https://img.shields.io/npm/v/nitrokit-cli.svg)](https://www.npmjs.com/package/nitrokit-cli)<!-- BADGES_END -->
 
-
 A powerful and user-friendly command-line interface (CLI) to help developers quickly set up new projects using the Nitrokit boilerplate. Built with a focus on speed and ease of use, this CLI automates the project creation process and lets you choose your preferred package manager.
-
-</div>
-
 
 ## ✨ Features
 
@@ -19,13 +16,15 @@ A powerful and user-friendly command-line interface (CLI) to help developers qui
 - **Package Manager Selection:** Choose between `pnpm`, `npm`, or `yarn` to automatically set up your project's dependencies.
 - **Clean Installation:** The CLI automatically removes unnecessary files, such as the `.git` directory and other lock files, ensuring a clean and fresh project start.
 - **User-Friendly Interface:** Provides clear, colored output and progress spinners to guide you through the setup process.
+- **Language Generation:** Add new languages to your project with a single command (`nitrokit generate language`).
+- **Dependency Management:** Keep your project up-to-date with a powerful `update` command that includes security audits and backups.
 
 ## 🚀 Installation
 
 You can install the Nitrokit CLI globally via your terminal.
 
 ```bash
-pnpm install -g @nitrokit/nitrokit-cli
+pnpm install -g nitrokit-cli
 ```
 
 or 
@@ -42,11 +41,11 @@ yarn global add nitrokit-cli
 
 ## 💡 Usage
 
-The CLI provides a single, simple command to get your project up and running.
+The CLI provides a set of commands to streamline your development workflow.
 
-`nitrokit new <project-name>`
+### `new`
 
-This command creates a new project directory with the specified name and clones the Nitrokit boilerplate into it.
+Creates a new project directory with the specified name and clones the Nitrokit boilerplate into it.
 
 ```bash
 nitrokit new my-awesome-app
