@@ -1,12 +1,12 @@
 <p align="center">
   <a href="https://nitrokit.tr">
-    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/.github/refs/heads/main/profile/nitrokit.png" height="100">
+    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/nitrokit-cli/refs/heads/main/assets/nitrokit-cli.png" height="100">
   </a>
 </p>
 
 # Nitrokit CLI
 
-<!-- BADGES_START -->[![npm version](https://img.shields.io/npm/v/nitrokit-cli.svg)](https://www.npmjs.com/package/nitrokit-cli)<!-- BADGES_END -->
+[![NPM Version](https://img.shields.io/npm/v/nitrokit-cli)](https://www.npmjs.com/package/nitrokit-cli) ![npm bundle size](https://img.shields.io/bundlephobia/min/nitrokit-cli?style=flat) 
 
 A powerful and user-friendly command-line interface (CLI) to help developers quickly set up new projects using the Nitrokit boilerplate. Built with a focus on speed and ease of use, this CLI automates the project creation process and lets you choose your preferred package manager.
 
