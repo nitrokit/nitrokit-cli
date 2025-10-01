@@ -32,7 +32,7 @@ const newCommand = {
       await new Promise((resolve, reject) => {
         exec(`git clone ${boilerplateUrl} ${projectName}`, (err, stdout, stderr) => {
           if (err) {
-            console.error(stderr);
+            spinner.fail(chalk.red`Failed to clone boilerplate repository. Please check your internet connection and Git installation.`);
             return reject(err);
           }
           resolve();

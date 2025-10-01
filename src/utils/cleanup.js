@@ -13,7 +13,7 @@ async function cleanupFiles(projectPath) {
 
   // .github klasörünü sil
   await fs.remove(path.join(projectPath, ".github"));
-  await fs.remove(path.join(projectPath, "crowdin.yml;"));
+  await fs.remove(path.join(projectPath, "crowdin.yml"));
 }
 
 module.exports = cleanupFiles;
