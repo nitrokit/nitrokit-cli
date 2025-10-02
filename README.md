@@ -1,14 +1,15 @@
-<p align="center">
+<div align="center">
   <a href="https://nitrokit.tr">
-    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/nitrokit-cli/refs/heads/main/assets/nitrokit-cli.png" height="100">
+    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/.github/refs/heads/main/profile/nitrokit.png" height="100">
   </a>
-</p>
 
 # Nitrokit CLI
 
-[![NPM Version](https://img.shields.io/npm/v/nitrokit-cli)](https://www.npmjs.com/package/nitrokit-cli) [![CodeFactor](https://www.codefactor.io/repository/github/nitrokit/nitrokit-cli/badge)](https://www.codefactor.io/repository/github/nitrokit/nitrokit-cli)
+[![NPM Version](https://img.shields.io/npm/v/nitrokit-cli)](https://www.npmjs.com/package/nitrokit-cli) [![NPM Downloads](https://img.shields.io/npm/dt/nitrokit-cli.svg)](https://www.npmjs.com/package/nitrokit-cli) [![CodeFactor](https://www.codefactor.io/repository/github/nitrokit/nitrokit-cli/badge)](https://www.codefactor.io/repository/github/nitrokit/nitrokit-cli)
+</div>
 
 A powerful and user-friendly command-line interface (CLI) to help developers quickly set up new projects using the Nitrokit boilerplate. Built with a focus on speed and ease of use, this CLI automates the project creation process and lets you choose your preferred package manager.
+
 
 ## ✨ Features
 
@@ -18,6 +19,8 @@ A powerful and user-friendly command-line interface (CLI) to help developers qui
 - **User-Friendly Interface:** Provides clear, colored output and progress spinners to guide you through the setup process.
 - **Language Generation:** Add new languages to your project with a single command (`nitrokit generate language`).
 - **Dependency Management:** Keep your project up-to-date with a powerful `update` command that includes security audits and backups.
+- **AI-Powered Translations:** Automatically translate your language files from English to other languages using Google Gemini (`nitrokit translate`).
+- **Version Checking:** Automatically checks for new versions of the CLI and notifies you when an update is available.
 
 ## 🚀 Installation
 
