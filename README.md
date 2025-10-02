@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://nitrokit.tr">
-    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/.github/refs/heads/main/profile/nitrokit.png" height="100">
+    <img alt="NitrokitCLI Logo" src="https://raw.githubusercontent.com/nitrokit/nitrokit-cli/refs/heads/main/assets/nitrokit-cli.png" height="150">
   </a>
 
 # Nitrokit CLI
