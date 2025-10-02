@@ -7,6 +7,7 @@ const path = require("path");
 const packageJsonPath = path.join(__dirname, "package.json");
 const packageJson = fs.readJsonSync(packageJsonPath);
 
+const checkForUpdates = require("./src/utils/check-for-updates");
 const newCommand = require("./src/commands/new");
 const generateCommand = require("./src/commands/generate");
 const updateCommand = require("./src/commands/update");
@@ -37,4 +38,7 @@ updateCommand.options.forEach(option => {
   updateCmd.option(...option);
 });
 
-program.parse(process.argv);
+(async () => {
+  await checkForUpdates(packageJson);
+  await program.parseAsync(process.argv);
+})();
