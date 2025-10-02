@@ -40,6 +40,8 @@ async function generateLanguage() {
     "locale.ts"
   );
   const messagesPath = path.join(projectRoot, "messages");
+  const globalTypesPath = path.join(projectRoot, "src", "types", "global.d.ts");
+  const requestConfigPath = path.join(projectRoot, "src", "lib", "i18n", "request.ts");
   const baseLangPath = path.join(messagesPath, "en");
 
   try {
@@ -151,17 +153,91 @@ async function generateLanguage() {
 
     await fs.writeFile(localeConfigPath, updatedLocaleContent, "utf-8");
 
-    // 3. Kodu Prettier ile formatla
-    // 3. Format the code with Prettier
-    spinner.start("Formatting code with Prettier...");
-    try {
-      // Use npx to ensure prettier is run even if not globally installed.
-      // The command is run with shell: true to correctly handle the glob pattern.
-      await execa('npx', ['prettier', '--write', '**/*.{js,jsx,ts,tsx,json,css,scss,md}', '--cache'], { cwd: projectRoot, shell: true });
-      spinner.succeed("Code formatted successfully.");
-    } catch (error) {
-      // Don't exit if prettier fails, just warn the user.
-      spinner.warn(chalk.yellow`Could not format the code. You may need to run Prettier manually.`);
+    // --- Varsayılan Dili Ayarlama Aşaması ---
+    // --- Set Default Language Phase ---
+
+    const { configureDefault } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'configureDefault',
+        message: 'Would you like to set a new default language for the project?',
+        default: false,
+      },
+    ]);
+
+    if (configureDefault) {
+      spinner.start('Reading updated language list...');
+      // Dosyanın en güncel halini tekrar oku
+      // Re-read the most up-to-date version of the file
+      const latestLocaleContent = await fs.readFile(localeConfigPath, 'utf-8');
+      const latestLocalesMatch = latestLocaleContent.match(/export const LOCALES = \[(.*?)\] as const;/);
+      const currentDefaultMatch = latestLocaleContent.match(/export const DEFAULT_LANGUAGE: Locale = '(.*)';/);
+
+      if (!latestLocalesMatch || !currentDefaultMatch) {
+        spinner.fail(chalk.red`Could not re-read 'locale.ts' to set a new default language.`);
+        process.exit(1);
+      }
+
+      const allAvailableLocales = latestLocalesMatch[1].split(",").map((l) => l.trim().replace(/['"]/g, ""));
+      const currentDefault = currentDefaultMatch[1];
+      spinner.succeed('Updated language list loaded.');
+
+      const { newDefaultLanguage } = await inquirer.prompt([
+        {
+          type: 'list',
+          name: 'newDefaultLanguage',
+          message: 'Which language should be the default?',
+          choices: allAvailableLocales,
+          default: currentDefault,
+        },
+      ]);
+
+      if (newDefaultLanguage !== currentDefault) {
+        spinner.start(`Setting default language to "${newDefaultLanguage}"...`);
+
+        // 1. global.d.ts dosyasını güncelle
+        // 1. Update global.d.ts file
+        if (await fs.pathExists(globalTypesPath)) {
+          let globalTypesContent = await fs.readFile(globalTypesPath, "utf-8");
+          globalTypesContent = globalTypesContent.replace(/(\.\.\/messages\/)[a-z]{2,5}(\/)/g, `$1${newDefaultLanguage}$2`);
+          await fs.writeFile(globalTypesPath, globalTypesContent, "utf-8");
+        }
+
+        // 2. i18n bildirim dosyasını oluştur (generate-i18n-declaration.sh mantığı)
+        // 2. Generate i18n declaration file (logic from generate-i18n-declaration.sh)
+        const defaultLangMessagesPath = path.join(messagesPath, newDefaultLanguage);
+        const declarationFilePath = path.join(messagesPath, "declarations.d.json");
+        const messageFiles = await fs.readdir(defaultLangMessagesPath);
+        const declarationObject = {};
+        for (const file of messageFiles.filter(f => f.endsWith('.json'))) {
+          const moduleName = path.basename(file, '.json');
+          declarationObject[moduleName] = await fs.readJson(path.join(defaultLangMessagesPath, file));
+        }
+        await fs.writeJson(declarationFilePath, declarationObject, { spaces: 2 });
+
+        // 3. request.ts dosyasını dinamik hale getir
+        // 3. Make request.ts dynamic
+        if (await fs.pathExists(requestConfigPath)) {
+          const moduleNames = Object.keys(declarationObject);
+          const importStatements = moduleNames.map(name => `        import(\`../../../messages/\${locale}/${name}.json\`),`).join('\n');
+          const messagesObject = moduleNames.map((name, index) => `            ${name}: messageModules[${index}].default,`).join('\n');
+
+          let requestContent = await fs.readFile(requestConfigPath, 'utf-8');
+          requestContent = requestContent.replace(/const messageModules = await Promise\.all\(\[[\s\S]*?\]\);/, `const messageModules = await Promise.all([\n${importStatements}\n    ]);`);
+          requestContent = requestContent.replace(/messages: {[\s\S]*?},/, `messages: {\n${messagesObject}\n        },`);
+          await fs.writeFile(requestConfigPath, requestContent, 'utf-8');
+        }
+
+        // 4. locale.ts dosyasındaki DEFAULT_LANGUAGE'ı güncelle
+        // 4. Update DEFAULT_LANGUAGE in locale.ts
+        let finalLocaleContent = await fs.readFile(localeConfigPath, 'utf-8');
+        finalLocaleContent = finalLocaleContent.replace(/export const DEFAULT_LANGUAGE: Locale = '.*';/, `export const DEFAULT_LANGUAGE: Locale = '${newDefaultLanguage}';`);
+        await fs.writeFile(localeConfigPath, finalLocaleContent, 'utf-8');
+
+        spinner.succeed(`Default language set to "${newDefaultLanguage}".`);
+      } else {
+        console.log(chalk.cyan('Default language remains unchanged.'));
+      }
     }
 
     spinner.succeed(
