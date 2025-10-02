@@ -6,7 +6,7 @@
 
 # Nitrokit CLI
 
-[![NPM Version](https://img.shields.io/npm/v/nitrokit-cli)](https://www.npmjs.com/package/nitrokit-cli) ![npm bundle size](https://img.shields.io/bundlephobia/min/nitrokit-cli?style=flat) 
+[![NPM Version](https://img.shields.io/npm/v/nitrokit-cli)](https://www.npmjs.com/package/nitrokit-cli) [![CodeFactor](https://www.codefactor.io/repository/github/nitrokit/nitrokit-cli/badge)](https://www.codefactor.io/repository/github/nitrokit/nitrokit-cli)
 
 A powerful and user-friendly command-line interface (CLI) to help developers quickly set up new projects using the Nitrokit boilerplate. Built with a focus on speed and ease of use, this CLI automates the project creation process and lets you choose your preferred package manager.
 
