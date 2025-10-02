@@ -11,6 +11,8 @@ const checkForUpdates = require("./src/utils/check-for-updates");
 const newCommand = require("./src/commands/new");
 const generateCommand = require("./src/commands/generate");
 const updateCommand = require("./src/commands/update");
+const translateCommand = require("./src/commands/translate");
+const configCommand = require("./src/commands/config");
 
 const program = new Command();
 
@@ -28,6 +30,14 @@ program.command(generateCommand.command)
   .description(generateCommand.description)
   .argument(...generateCommand.argument)
   .action(generateCommand.action);
+
+program.command(translateCommand.command)
+  .description(translateCommand.description)
+  .action(translateCommand.action);
+
+program.command(configCommand.command)
+  .description(configCommand.description)
+  .action(configCommand.action);
 
 const updateCmd = program
   .command(updateCommand.command)

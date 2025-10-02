@@ -11,6 +11,9 @@ importers:
 
   .:
     dependencies:
+      '@google/generative-ai':
+        specifier: ^0.17.0
+        version: 0.17.2
       boxen:
         specifier: 5.1.2
         version: 5.1.2
@@ -32,9 +35,6 @@ importers:
       latest-version:
         specifier: 5.1.0
         version: 5.1.0
-      nitrokit:
-        specifier: link:../../../Library/pnpm/global/5/node_modules/nitrokit
-        version: link:../../../Library/pnpm/global/5/node_modules/nitrokit
       ora:
         specifier: 5.4.1
         version: 5.4.1
@@ -43,6 +43,10 @@ importers:
         version: 7.6.3
 
 packages:
+
+  '@google/generative-ai@0.17.2':
+    resolution: {integrity: sha512-TRKwCCqFe8JawNpvwk5FNcE9CQGUUjROiUxpH+uUR46sjLkgsR2v4+clu2axxnzEd9rnMpUNAJriUXeEu0zFBw==}
+    engines: {node: '>=18.0.0'}
 
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
@@ -513,6 +517,8 @@ packages:
     engines: {node: '>=18'}
 
 snapshots:
+
+  '@google/generative-ai@0.17.2': {}
 
   '@sec-ant/readable-stream@0.4.1': {}
 
