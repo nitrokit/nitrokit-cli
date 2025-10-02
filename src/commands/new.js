@@ -4,11 +4,11 @@ const path = require("path");
 const ora = require("ora");
 const chalk = require("chalk");
 
-const cleanupFiles = require("../utils/cleanup");
-const configureGit = require("../utils/git-config");
-const configureEnv = require("../utils/env-config");
-const configureDependencies = require("../utils/dependencies");
-const createInitialCommit = require("../utils/git-commit");
+const cleanupFiles = require("../utils/new/cleanup");
+const configureGit = require("../utils/new/git-config");
+const configureEnv = require("../utils/new/env-config");
+const configureDependencies = require("../utils/new/dependencies");
+const createInitialCommit = require("../utils/new/git-commit");
 
 const newCommand = {
   command: "new",
