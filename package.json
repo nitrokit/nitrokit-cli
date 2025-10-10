@@ -34,7 +34,7 @@
   "bin": {
     "nitrokit": "./index.js"
   },
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.18.2+sha512.9fb969fa749b3ade6035e0f109f0b8a60b5d08a1a87fdf72e337da90dcc93336e2280ca4e44f2358a649b83c17959e9993e777c2080879f3801e6f0d999ad3dd",
   "dependencies": {
     "@google/generative-ai": "^0.17.0",
     "boxen": "5.1.2",
@@ -45,6 +45,8 @@
     "inquirer": "8.2.5",
     "latest-version": "5.1.0",
     "ora": "5.4.1",
-    "semver": "7.6.3"
+    "semver": "7.6.3",
+    "got": "^14.4.2",
+    "tar": "^7.4.0"
   }
 }

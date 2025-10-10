@@ -1,9 +1,11 @@
-const { exec } = require("child_process");
+const { execa } = require("execa");
 const fs = require("fs-extra");
 const path = require("path");
+const { promisify } = require("util");
+const stream = require("stream");
 const ora = require("ora");
 const chalk = require("chalk");
-
+const tar = require("tar");
 const cleanupFiles = require("../utils/new/cleanup");
 const configureGit = require("../utils/new/git-config");
 const configureEnv = require("../utils/new/env-config");
@@ -16,7 +18,7 @@ const newCommand = {
   argumentDescription: "The name for the new project and directory.",
   action: async (projectName) => {
     const spinner = ora(chalk.blue`Creating project "${projectName}"...`).start();
-    const boilerplateUrl = "https://github.com/nitrokit/nitrokit-nextjs.git";
+    const repo = "nitrokit/nitrokit-nextjs";
     const projectPath = path.join(process.cwd(), projectName);
 
     // Hedef dizin zaten var mı diye kontrol et
@@ -27,17 +29,32 @@ const newCommand = {
     }
 
     try {
+      // Proje dizinini oluştur
+      // Create the project directory
+      await fs.ensureDir(projectPath);
       // GitHub reposunu klonla
       // Clone GitHub repository
-      await new Promise((resolve, reject) => {
-        exec(`git clone ${boilerplateUrl} ${projectName}`, (err, stdout, stderr) => {
-          if (err) {
-            spinner.fail(chalk.red`Failed to clone boilerplate repository. Please check your internet connection and Git installation.`);
-            return reject(err);
-          }
-          resolve();
-        });
-      });
+      const pipeline = promisify(stream.pipeline);
+
+      try {
+        spinner.text = "Fetching latest release information...";
+        // Use dynamic import for ESM-only 'got' package
+        const { default: got } = await import("got");
+        const response = await got(`https://api.github.com/repos/${repo}/releases/latest`).json();
+        const version = response.tag_name;
+        const tarballUrl = response.tarball_url;
+
+        spinner.text = `Downloading Nitrokit Next.js template ${chalk.yellow(version)}...`;
+        
+        await pipeline(
+          got.stream(tarballUrl),
+          tar.extract({ cwd: projectPath, strip: 1 })
+        );
+
+      } catch (error) {
+        spinner.fail(chalk.red`Failed to download boilerplate. Please check your internet connection.`);
+        throw error; // Hatanın ana catch bloğuna gitmesini sağla
+      }
 
       // Klonlanan projenin dizinine geç
       // Change to cloned project directory
