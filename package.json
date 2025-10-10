@@ -4,7 +4,9 @@
   "description": "A CLI to create Nitrokit projects.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "pnpm exec -- node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -42,11 +44,47 @@
     "commander": "^14.0.1",
     "execa": "^9.3.0",
     "fs-extra": "^11.3.2",
+    "got": "^14.4.2",
     "inquirer": "8.2.5",
     "latest-version": "5.1.0",
+    "nitrokit": "link:../../../Library/pnpm/global/5/node_modules/nitrokit",
     "ora": "5.4.1",
     "semver": "7.6.3",
-    "got": "^14.4.2",
     "tar": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "supertest": "^6.3.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/setup.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "index.js",
+      "!**/node_modules/**"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "verbose": true,
+    "clearMocks": true,
+    "restoreMocks": true,
+    "transformIgnorePatterns": [
+      "node_modules/(?!(execa|got)/)"
+    ],
+    "moduleNameMapper": {
+      "^execa$": "<rootDir>/__tests__/__mocks__/execa.js"
+    }
   }
 }

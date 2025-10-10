@@ -16,7 +16,7 @@ async function addLanguages(projectRoot) {
   if (!fs.existsSync(localeConfigPath) || !fs.existsSync(baseLangPath)) {
     console.error(chalk.red`Error: Could not find required project structure.`);
     console.error(chalk.yellow`Please run this command from the root of a Nitrokit project.`);
-    process.exit(1);
+    process.exit();
   }
 
   // Mevcut dilleri oku
@@ -27,7 +27,7 @@ async function addLanguages(projectRoot) {
 
   if (!localesArrayMatch || !localesArrayMatch[1]) {
     spinner.fail(chalk.red`Could not parse 'locale.ts'.`);
-    process.exit(1);
+    process.exit();
   }
 
   const existingLocales = localesArrayMatch[1].split(",").map((l) => l.trim().replace(/['"]/g, ""));

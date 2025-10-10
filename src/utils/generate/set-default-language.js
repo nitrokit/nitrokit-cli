@@ -28,7 +28,7 @@ async function setDefaultLanguage(projectRoot) {
 
     if (!latestLocalesMatch || !currentDefaultMatch) {
       spinner.fail(chalk.red`Could not re-read 'locale.ts' to set a new default language.`);
-      process.exit(1);
+      process.exit();
     }
 
     const allAvailableLocales = latestLocalesMatch[1].split(",").map((l) => l.trim().replace(/['"]/g, ""));
